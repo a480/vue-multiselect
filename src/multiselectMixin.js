@@ -355,22 +355,35 @@ export default {
      * @returns {Object||Array||String||Integer} returns the external value
      */
     getValue () {
-      return this.multiple
-        ? deepClone(this.internalValue)
-        : this.internalValue.length === 0
-          ? null
-          : deepClone(this.internalValue[0])
+      // console.log('getValue', this.internalValue, this.internalValue[0].value)
+      return this.internalValue[0].value
+      // return this.multiple
+      //   ? deepClone(this.internalValue)
+      //   : this.internalValue.length === 0
+      //     ? null
+      //     : deepClone(this.internalValue[0])
     },
     /**
      * Converts the external value to the internal value
      * @returns {Array} returns the internal value
      */
     getInternalValue (value) {
-      return value === null || value === undefined
-        ? []
-        : this.multiple
-          ? deepClone(value)
-          : deepClone([value])
+      // console.log('getInternalValue', value)
+      if (value === null || value === undefined) {
+        return []
+      } else {
+        for (const option of this.options) {
+          if (option.value === value) {
+            return [option]
+          }
+        }
+        console.log('getInternalValue can not resolve value', value)
+      }
+      // return value === null || value === undefined
+      //   ? []
+      //   : this.multiple
+      //     ? deepClone(value)
+      //     : deepClone([value])
     },
     /**
      * Filters and then flattens the options list
