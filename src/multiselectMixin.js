@@ -66,9 +66,7 @@ export default {
       isOpen: false,
       prefferedOpenDirection: 'below',
       optimizedHeight: this.maxHeight,
-      internalValue: this.value || this.value === 0
-        ? deepClone(Array.isArray(this.value) ? this.value : [this.value])
-        : []
+      internalValue: this.getInternalValue(this.value)
     }
   },
   props: {
@@ -107,7 +105,7 @@ export default {
     value: {
       type: null,
       default () {
-        return []
+        return null
       }
     },
     /**
@@ -356,7 +354,7 @@ export default {
      */
     getValue () {
       // console.log('getValue', this.internalValue, this.internalValue[0].value)
-      return this.internalValue[0].value
+      return this.internalValue.length ? this.internalValue[0].value : null
       // return this.multiple
       //   ? deepClone(this.internalValue)
       //   : this.internalValue.length === 0
@@ -378,6 +376,7 @@ export default {
           }
         }
         console.log('getInternalValue can not resolve value', value)
+        return []
       }
       // return value === null || value === undefined
       //   ? []
